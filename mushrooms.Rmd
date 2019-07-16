@@ -1,0 +1,156 @@
+---
+title: "Mushroom Classification"
+output:
+  html_document:
+    theme: flatly
+    highlight: kate
+    toc: true
+    df_print: paged
+---
+
+```{css style, echo = FALSE}
+a, a:hover {
+  color: #DE3131;
+}
+code {
+  color: #E3A80E;
+}
+```
+
+```{r setup, include = FALSE}
+library(knitr)
+library(kableExtra)
+
+# a prefix nulling hook.
+
+# make sure to keep the default for normal processing.
+default_output_hook <- knitr::knit_hooks$get('output')
+
+# output hooks handle normal R console output.
+knitr::knit_hooks$set(output = function(x, options) {
+  
+  # grab 'comment' setting
+  comment <- knitr::opts_current$get('comment')
+  
+  # if NA, replace comment with ''
+  if(is.na(comment)) comment <- ''
+  
+  # regex to logically detect ' *[#]' string in x (the output string)
+  can_null <- grepl(paste0(comment, '\\s*\\[\\d+\\]'), 
+                     x, perl = TRUE)
+  
+  # check if 'null_prefix' chunk option is set to TRUE
+  do_null <- isTRUE(knitr::opts_current$get('null_prefix'))
+  
+  if(can_null && do_null) {
+    
+    # R print output aligns at the right brace, gather this value - 1
+    align_index <- regexpr('\\]', x)[1] - 1
+    
+    # two cases: start or newline; can probably combine into one using refs...
+    
+    #start
+    # start of string, any character matching align_index times followed by ]
+    re <- paste0('^.{', align_index, '}\\]\\s?')
+    rep <- comment
+    x <- gsub(re, rep, x) # replace re with empty string in x
+    
+    # new line
+    # new line, any character matching align_index times followed by ]
+    re <- paste0('\\\n.{', align_index, '}\\]\\s?')
+    rep <- paste0('\n', comment) # new line followed by comment
+    x <- gsub(re, rep, x) # replace re with new line followed by comment
+  }
+  
+  # still unsure what this does...
+  default_output_hook(x, options)
+
+})
+
+#options(width = 105) # for HTML output only; too wide for pdf
+knitr::opts_chunk$set(cache = TRUE,
+                      comment = NA,
+                      message = FALSE, 
+                      warning = FALSE, 
+                      error = FALSE,
+                      background = '#B9B9B9', # for pdf only
+                      fig.align = 'center',
+                      null_prefix = TRUE)
+
+options(width = 100) # increase print output width for skim/glimpse
+```
+
+```{r packages}
+library(tidyverse)
+library(skimr)
+library(caret)
+```
+```{r skimr_settings}
+skim_with(factor = list(n = NULL, complete = NULL),
+          logical = list(n = NULL, complete = NULL))
+```
+
+```{r data}
+# read in the data; column `gill-attachment` as factor
+mushrooms <- read_csv('mushrooms.csv', col_types = cols(`gill-attachment` = 'f'))
+glimpse(mushrooms)
+
+# convert character variables to factors and replace '-' with '_' in names
+mushrooms <- mushrooms %>% 
+               rename_all(~str_replace_all(., '-', '_')) %>% 
+               mutate_if(is.character, factor)
+```
+
+```{r data_exploration, cache = FALSE}
+skim(mushrooms)
+
+# correlation
+
+```
+
+Taking a glimpse at our data reveals that 22 of the 23 variables are factors, with the remaining variable a logical concerning whether or not the mushroom in question has bruises. Taking a closer look at the variables tells us that all of the values are coded with a single letter rather than a full name. As there are 22 variables like this, we will leave them coded as they are and simply adjust labels when visualizing the data. The meanings of the codes can be found at the [Mushroom Classification Kaggle page](https://www.kaggle.com/uciml/mushroom-classification).
+
+Looking at the Kaggle page for this dataset shows that missing data has been input as a question mark (?) for the `stalk_root` variable, so we will want to change those values to `na`. 
+
+The `class` variable is our target variable, so we will move that to the front of the data.
+
+```{r}
+mushrooms_tidy <- mushrooms %>% 
+  select(class, bruises, everything()) %>% 
+  na_if('?')
+```
+
+There wasn't much to do to organize the data, so we can get straight to the data visualization.
+
+## Data Visualization
+
+```{r data_visualisation}
+ggplot(mushrooms, aes(x = fct_infreq(population))) + # same as below
+  geom_bar()
+
+ggplot(mushrooms, aes(x = reorder(population, population, function(x) -length(x)))) +
+  geom_bar()
+```
+
+```{r baseline_model}
+# naive bayes classifier? data probably not independent
+
+# knn or decision tree most likely
+```
+
+```{r variable_selection}
+# random forest?
+
+# can we use pca on categorical data? what could we use? datacamp course can help
+```
+
+```{r model_building}
+# random forest
+# gradient boosting
+# svm
+# neural networking
+```
+
+```{r model_testing_and_validation}
+# test all models
+```
