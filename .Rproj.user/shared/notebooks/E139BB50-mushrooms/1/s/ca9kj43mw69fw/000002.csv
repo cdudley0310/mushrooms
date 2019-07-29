@@ -1,0 +1,29 @@
+"0","py$mushrooms %>% 
+        mutate(stalk_root = unlist(stalk_root)) %>% 
+        mutate_all(as.factor) %>% 
+        count(class, cap_color, .drop = FALSE) %>% 
+        ggplot(aes(x = fct_reorder(cap_color, .x = n, .desc = TRUE), 
+                   y = n, 
+                   fill = class,
+                   text = paste0('Colour: ', cap_color, '<br>',
+                                 'Edibility: ', class, '<br>',
+                                 'Count: ', n))) +
+          geom_col(position = 'dodge') +
+          labs(x = 'Cap Colour', y = 'Count') +
+          scale_x_discrete(labels = c('Brown' = 'brown',
+                                      'Buff' = 'buff',
+                                      'Cinnamon' = 'cinnamon',
+                                      'Gray' = 'gray',
+                                      'Green' = 'green',
+                                      'Pink' = 'pink',
+                                      'Red' = 'red',
+                                      'Purple' = 'purple',
+                                      'White' = 'white', 
+                                      'Yellow' = 'yellow')) +
+          theme_minimal(base_family = 'Source Sans Pro') +
+          theme(panel.grid.major.x = element_blank(),
+                axis.text.x = element_text(vjust = 5,
+                                           size = rel(1)))
+"
+"2","Error in eval(lhs, parent, parent) : object 'py' not found
+"
