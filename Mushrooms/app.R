@@ -159,10 +159,9 @@ mushrooms <- mushrooms %>%
                                        '^u$' = 'urban',
                                        '^w$' = 'waste',
                                        '^d$' = 'woods'))) %>% 
-    mutate_all(list(str_to_sentence)) %>% 
+    mutate_all(str_to_sentence) %>% 
     rename_all(~str_replace_all(., '_', ' ') %>% str_to_title()) %>% 
     mutate_all(as.factor)
-mushrooms
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
