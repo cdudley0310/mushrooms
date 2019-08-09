@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565047597111.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F0C7355",
+    "lastKnownWriteTime" : 1565324416,
+    "last_content_update" : 1565326384768,
+    "path" : "~/Library/Mobile Documents/com~apple~CloudDocs/data_science/mushrooms/Mushrooms/app.R",
+    "project_path" : "Mushrooms/app.R",
+    "properties" : {
+        "cursorPosition" : "227,28",
+        "scrollLine" : "209"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

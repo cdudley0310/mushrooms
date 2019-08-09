@@ -1,0 +1,4 @@
+"0","import numpy as np # array management
+import pandas as pd # data management
+import matplotlib.pyplot as plt # basic graphics
+import seaborn as sns # advanced graphics"

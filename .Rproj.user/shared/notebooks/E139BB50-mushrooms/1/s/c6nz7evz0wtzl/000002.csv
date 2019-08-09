@@ -1,0 +1,2 @@
+"0","mushrooms.columns = mushrooms.columns.str.replace('-', '_')
+mushrooms = mushrooms.astype('category')"
