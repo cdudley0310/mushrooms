@@ -3,7 +3,7 @@ library(tidyverse)
 library(plotly)
 
 mushrooms <- read_csv('mushrooms.csv', 
-                      col_types = str_c(rep('f', 23), 
+                      col_types = str_c(str_dup('f', 23), 
                                          collapse = ''),
                       na = '?')
 

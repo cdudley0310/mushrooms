@@ -131,50 +131,138 @@ mushrooms
 Overall, this was a pretty clean dataset with few issues. The only thing I personally do not like is that all of the values are coded with a single indicator letter and that means we have to constantly go back-and-forth between the work being done and the list of meanings or tediously re-code the values. We are going to go with the latter option and recode all of the values. The meanings of the codes can be found at the [Mushroom Classification Kaggle page](https://www.kaggle.com/uciml/mushroom-classification).
 
 ```{python}
-values = {'class':{'e':'edible', 'p':'poisonous'}, \
-          'cap_shape':{'b':'bell', 'c':'conical', 'x':'convex', 'f':'flat', \
-                       'k':'knobbed', 's':'sunken'}, \
-          'cap_surface':{'f':'fibrous', 'g':'grooves', 'y':'scaly', 's':'smooth'}, \
-          'cap_color':{'n':'brown', 'b':'buff', 'c':'cinnamon', 'g':'gray', 'r':'green', \
-                       'p':'pink', 'u':'purple', 'e':'red', 'w':'white', 'y':'yellow'}, \
-          'bruises':{'t':'presence', 'f':'absense'}, \
-          'odor':{'a':'almond', 'l':'anise', 'c':'creosote', 'y':'fishy', 'f':'foul', \
-                  'm':'musty', 'n':'none', 'p':'pungent', 's':'spicy'}, \
-          'gill_attachment':{'a':'attached', 'd':'descending', 'f':'free', 'n':'notched'}, \
-          'gill_spacing':{'c':'close', 'w':'crowded', 'd':'distant'}, \
-          'gill_size':{'b':'broad', 'n':'narrow'}, \
-          'gill_color':{'k':'black', 'n':'brown', 'b':'buff', 'h':'chocolate', \
-                        'g':'gray', 'r':'green', 'o':'orange', 'p':'pink', 'u':'purple', \
-                        'e':'red', 'w':'white', 'y':'yellow'}, \
-          'stalk_shape':{'e':'enlarging', 't':'tapering'}, \
-          'stalk_root':{'b':'bulbous', 'c':'club', 'u':'cup', 'e':'equal', \
-                        'z':'rhizomorphs', 'r':'rooted'}, \
-          'stalk_surface_above_ring':{'f':'fibrous', 'y':'scaly', 'k':'silky', \
-                                      's':'smooth'}, \
-          'stalk_surface_below_ring':{'f':'fibrous', 'y':'scaly', 'k':'silky', \
-                                      's':'smooth'}, \
-          'stalk_color_above_ring':{'n':'brown', 'b':'buff', 'c':'cinnamon', 'g':'gray', \
-                                    'o':'orange', 'p':'pink', 'e':'red', 'w':'white', \
-                                    'y':'yellow'}, \
-          'stalk_color_below_ring':{'n':'brown', 'b':'buff', 'c':'cinnamon', 'g':'gray', \
-                                    'o':'orange', 'p':'pink', 'e':'red', 'w':'white', \
-                                    'y':'yellow'}, \
-          'veil_type':{'p':'partial', 'u':'universal'}, \
-          'veil_color':{'n':'brown', 'o':'orange', 'w':'white', 'y':'yellow'}, \
-          'ring_number':{'n':'none', 'o':'one', 't':'two'}, \
-          'ring_type':{'c':'cobwebby', 'e':'evanescent', 'f':'flaring', 'l':'large', \
-                       'n':'none', 'p':'pendant', 's':'sheathing', 'z':'zone'}, \
-          'spore_print_color':{'k':'black', 'n':'brown', 'b':'buff', 'h':'chocolate', \
-                               'r':'green', 'o':'orange', 'u':'purple', 'w':'white', \
-                               'y':'yellow'}, \
-          'population':{'a':'abundant', 'c':'clustered', 'n':'numerous', 's':'scattered', \
-                        'v':'several', 'y':'solitary'}, \
-          'habitat':{'g':'grasses', 'l':'leaves', 'm':'meadows', 'p':'paths', \
-                     'u':'urban', 'w':'waste', 'd':'woods'}}
+values = {'class':{'e':'edible', 
+                   'p':'poisonous'},
+          'cap_shape':{'b':'bell', 
+                       'c':'conical', 
+                       'x':'convex', 
+                       'f':'flat',
+                       'k':'knobbed', 
+                       's':'sunken'},
+          'cap_surface':{'f':'fibrous', 
+                         'g':'grooves', 
+                         'y':'scaly', 
+                         's':'smooth'},
+          'cap_color':{'n':'brown', 
+                       'b':'buff', 
+                       'c':'cinnamon', 
+                       'g':'gray', 
+                       'r':'green',
+                       'p':'pink', 
+                       'u':'purple', 
+                       'e':'red', 
+                       'w':'white', 
+                       'y':'yellow'},
+          'bruises':{'t':'present', 
+                     'f':'absent'},
+          'odor':{'a':'almond', 
+                  'l':'anise', 
+                  'c':'creosote', 
+                  'y':'fishy', 
+                  'f':'foul',
+                  'm':'musty', 
+                  'n':'none', 
+                  'p':'pungent', 
+                  's':'spicy'},
+          'gill_attachment':{'a':'attached', 
+                             'd':'descending', 
+                             'f':'free', 
+                             'n':'notched'},
+          'gill_spacing':{'c':'close', 
+                          'w':'crowded', 
+                          'd':'distant'},
+          'gill_size':{'b':'broad', 
+                       'n':'narrow'},
+          'gill_color':{'k':'black', 
+                        'n':'brown', 
+                        'b':'buff', 
+                        'h':'chocolate',
+                        'g':'gray', 
+                        'r':'green', 
+                        'o':'orange', 
+                        'p':'pink', 
+                        'u':'purple',
+                        'e':'red', 
+                        'w':'white', 
+                        'y':'yellow'},
+          'stalk_shape':{'e':'enlarging', 
+                         't':'tapering'},
+          'stalk_root':{'b':'bulbous', 
+                        'c':'club', 
+                        'u':'cup', 
+                        'e':'equal',
+                        'z':'rhizomorphs', 
+                        'r':'rooted'},
+          'stalk_surface_above_ring':{'f':'fibrous', 
+                                      'y':'scaly', 
+                                      'k':'silky',
+                                      's':'smooth'},
+          'stalk_surface_below_ring':{'f':'fibrous', 
+                                      'y':'scaly', 
+                                      'k':'silky',
+                                      's':'smooth'},
+          'stalk_color_above_ring':{'n':'brown', 
+                                    'b':'buff', 
+                                    'c':'cinnamon', 
+                                    'g':'gray',
+                                    'o':'orange', 
+                                    'p':'pink', 
+                                    'e':'red', 
+                                    'w':'white',
+                                    'y':'yellow'},
+          'stalk_color_below_ring':{'n':'brown', 
+                                    'b':'buff', 
+                                    'c':'cinnamon', 
+                                    'g':'gray',
+                                    'o':'orange', 
+                                    'p':'pink', 
+                                    'e':'red', 
+                                    'w':'white',
+                                    'y':'yellow'},
+          'veil_type':{'p':'partial', 
+                       'u':'universal'},
+          'veil_color':{'n':'brown', 
+                        'o':'orange', 
+                        'w':'white', 
+                        'y':'yellow'},
+          'ring_number':{'n':'none', 
+                         'o':'one', 
+                         't':'two'},
+          'ring_type':{'c':'cobwebby', 
+                       'e':'evanescent', 
+                       'f':'flaring', 
+                       'l':'large',
+                       'n':'none', 
+                       'p':'pendant', 
+                       's':'sheathing', 
+                       'z':'zone'},
+          'spore_print_color':{'k':'black', 
+                               'n':'brown', 
+                               'b':'buff', 
+                               'h':'chocolate',
+                               'r':'green', 
+                               'o':'orange', 
+                               'u':'purple', 
+                               'w':'white',
+                               'y':'yellow'},
+          'population':{'a':'abundant', 
+                        'c':'clustered', 
+                        'n':'numerous', 
+                        's':'scattered',
+                        'v':'several', 
+                        'y':'solitary'},
+          'habitat':{'g':'grasses', 
+                     'l':'leaves', 
+                     'm':'meadows', 
+                     'p':'paths',
+                     'u':'urban', 
+                     'w':'waste', 
+                     'd':'woods'}}
 mushrooms = mushrooms.replace(values)
+mushrooms = mushrooms.apply(lambda x: x.str.capitalize())
 ```
 
-That was incredibly tedious and there were many places where an error could have occured, so we should check to make sure that all values have been recoded and we made no mistakes.
+That was incredibly tedious and there were many places where an error could have occurred, so we should check to make sure that all values have been recoded and we made no mistakes.
 
 ```{python}
 mushrooms.apply(lambda x: x.value_counts()).transpose().stack()
@@ -186,151 +274,76 @@ Everything looks good and we can move on to some data visualizations. In reality
 
 Rather than create a 22 static graphs showing how each predictor variable is distributed between poisonous and edible mushrooms, let's make a single, interactive `Bokeh` figure that can do this.
 
-```{python tidy, eval = FALSE}
-from bokeh.io import show, curdoc
-from bokeh.plotting import figure
-from bokeh.palettes import Spectral6
-from bokeh.models import HoverTool, ColumnDataSource, FactorRange
-
-col_counts = mushrooms.groupby('class').cap_color.value_counts().\
-                       unstack(fill_value=0).stack()
-df = pd.DataFrame(col_counts).reset_index()
-df.columns = ['edibility', 'cap_color', 'count']
-df = df.pivot(index='cap_color',
-              columns='edibility',
-              values='count').reset_index()
-df = df.melt(id_vars='cap_color',
-             value_vars=['edible', 'poisonous'],
-             var_name='edibility',
-             value_name='count')
-df = df.sort_values(by='cap_color', axis=0)
-
-x = [(color, status) for color in df.cap_color.unique() \
-                     for status in df.edibility.unique()]
-counts = list(df['count'])
-
-sorted_x = [('brown', 'edible'), ('brown', 'poisonous'),
-            ('gray', 'edible'), ('gray', 'poisonous'),
-            ('red', 'edible'), ('red', 'poisonous'),
-            ('yellow', 'edible'), ('yellow', 'poisonous'),
-            ('white', 'edible'), ('white', 'poisonous'),
-            ('buff', 'edible'), ('buff', 'poisonous'),
-            ('pink', 'edible'), ('pink', 'poisonous'),
-            ('cinnamon', 'edible'), ('cinnamon', 'poisonous'),
-            ('green', 'edible'), ('green', 'poisonous'),
-            ('purple', 'edible'), ('purple', 'poisonous')]
-
-source = ColumnDataSource(data=dict(x=x, counts=counts))
-
-p = figure(x_range=FactorRange(*sorted_x), title='Mushroom Edibility by Cap Color',
-           toolbar_location=None, tools='hover')
-
-p.vbar(x='x', top='counts', width=0.9, source=source, line_color='white', 
-       fill_color=factor_cmap('x', palette=['#AA1123', '#2311AA'], 
-                              factors=list(df.edibility.unique()), start=1, end=2))
-
-p.hover.tooltips = [
-    ('Color', '@x'),
-    ('Count', '@counts')
-]
-
-p.y_range.start = 0
-p.x_range.range_padding = 0.1
-p.xaxis.major_label_orientation = 1
-p.xgrid.grid_line_color = None
-
-show(p)
+```{python}
+mushrooms
 ```
 
-```{python untidy, eval = FALSE}
+
+```{python untidy}
 from bokeh.core.properties import value
 from bokeh.io import show
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure
 from bokeh.transform import dodge
 
-col_counts = mushrooms.groupby('class').cap_color.value_counts().\
-                       unstack(fill_value=0).stack()
-df = pd.DataFrame(col_counts).reset_index()
-df.columns = ['edibility', 'cap_color', 'count']
-df = df.pivot(index='cap_color',
-              columns='edibility',
-              values='count').reset_index()
-df['total'] = df['edible'] + df['poisonous']
-df = df.sort_values(by='total', ascending=False)
-
-source = ColumnDataSource(data=df)
-
-p = figure(x_range=df.cap_color, 
-           title='Mushroom Edibility by Cap Color')
-
-p.vbar(x=dodge('cap_color', -0.175, range=p.x_range), 
-       top='edible', width=0.30, source=source,
-       color='#c9d9d3', legend=value('edible'))
-
-p.vbar(x=dodge('cap_color', 0.175, range=p.x_range), 
-       top='poisonous', width=0.30, source=source,
-       color='#718dbf', legend=value('poisonous'))
-
-p.y_range.start = 0
-p.x_range.range_padding = 0.1
-p.xgrid.grid_line_color = None
-p.legend.location = 'top_right'
-p.legend.orientation = 'vertical'
-p.toolbar.autohide = True
-
-show(p)
+def plots(variable):
+  variable = str(variable)
+  col_counts = mushrooms.groupby('class')[variable].value_counts().\
+                         unstack(fill_value=0).stack()
+  df = pd.DataFrame(col_counts).reset_index()
+  df.columns = ['Edibility', variable, 'Count']
+  df = df.pivot(index=variable,
+                columns='Edibility',
+                values='Count').reset_index()
+  df['Total'] = df['Edible'] + df['Poisonous']
+  df = df.sort_values(by='Total', ascending=False)
+  
+  source = ColumnDataSource(data=df)
+  
+  p = figure(x_range=df[variable], 
+             title='Mushroom Edibility by ' + variable.replace('_', ' ').\
+                                                       title(),
+             tools='hover')
+  
+  p.vbar(x=dodge(variable, -0.175, range=p.x_range), 
+         top='Edible', width=0.30, source=source,
+         color='#E25C5E', legend=value('Edible'))
+  
+  p.vbar(x=dodge(variable, 0.175, range=p.x_range),  
+         top='Poisonous', width=0.30, source=source,
+         color='#E2E25C', legend=value('Poisonous'))
+  
+  p.y_range.start = 0
+  p.x_range.range_padding = 0.1
+  p.xgrid.grid_line_color = None
+  p.legend.location = 'top_right'
+  p.legend.orientation = 'vertical'
+  p.toolbar.autohide = True
+  p.legend.click_policy = 'hide'
+  p.hover.tooltips = [
+    (variable.replace('_', ' ').title(), '@' + variable),
+    ('Edible', '@Edible'),
+    ('Poisonous', '@Poisonous')
+  ]
+  
+  p.xaxis.axis_label = variable.replace('_', ' ').title()
+  p.yaxis.axis_label = 'Count'
+  p.axis.axis_label_text_font_style = 'normal'
+  
+  return show(p)
 ```
 
-```{r eval = FALSE}
-library(tidyverse)
-library(plotly)
-
-ggplotly(py$mushrooms %>% 
-           mutate(stalk_root = unlist(stalk_root)) %>% 
-           mutate_all(as.factor) %>% 
-           count(class, cap_color, .drop = FALSE) %>% 
-           ggplot(aes(x = fct_reorder(cap_color, .x = n, .desc = TRUE), 
-                      y = n, 
-                      fill = class,
-                      text = paste0('Colour: ', cap_color, '<br>',
-                                    'Edibility: ', class, '<br>',
-                                    'Count: ', n))) +
-             geom_col(position = 'dodge') +
-             labs(x = 'Cap Colour', y = 'Count') +
-             theme_minimal(base_family = 'Source Sans Pro ExtraLight') +
-             theme(panel.grid.major.x = element_blank(),
-                   axis.text.x = element_text(vjust = 5)),
-         tooltip = c('text')) 
+```{python}
+plots('cap_color')
 ```
 
-```{r}
-py$mushrooms %>% 
-        mutate(stalk_root = unlist(stalk_root)) %>% 
-        mutate_all(as.factor) %>% 
-        count(class, cap_color, .drop = FALSE) %>% 
-        ggplot(aes(x = fct_reorder(cap_color, .x = n, .desc = TRUE), 
-                   y = n, 
-                   fill = class,
-                   text = paste0('Colour: ', cap_color, '<br>',
-                                 'Edibility: ', class, '<br>',
-                                 'Count: ', n))) +
-          geom_col(position = 'dodge') +
-          labs(x = 'Cap Colour', y = 'Count') +
-          scale_x_discrete(labels = c('brown' = 'Brown',
-                                      'buff' = 'Buff',
-                                      'cinnamon' = 'Cinnamon',
-                                      'gray' = 'Gray',
-                                      'green' = 'Green',
-                                      'pink' = 'Pink',
-                                      'red' = 'Red',
-                                      'purple' = 'Purple',
-                                      'white' = 'White', 
-                                      'yellow' = 'Yellow')) +
-          scale_fill_discrete(name = 'Edibility',
-                              labels = c('edible' = 'Edible',
-                                         'poisonous' = 'Poisonous')) +
-          theme_minimal(base_family = 'Source Sans Pro') +
-          theme(panel.grid.major.x = element_blank(),
-                axis.text.x = element_text(vjust = 5))
+```{python}
+mushrooms_columns = mushrooms.columns.values.tolist()
+mushrooms_columns.remove('class')
+list(map(plots, mushrooms_columns))
 ```
+
+```{python}
+
+```
+
