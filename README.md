@@ -10,7 +10,7 @@ This is very much a work in progress and I intend to flesh out both the Python a
 
 # Important Files in this Repository
 
-* mushrooms.Rproj –– the project environment for this analysis
-* mushrooms.rmd –– R Markdown file containing the Python/R data management and analysis
-* Mushrooms/app.R –– Shiny app
-* mushrooms.csv –– data retrieved from [Kaggle](https://www.kaggle.com/uciml/mushroom-classification)
+* `mushrooms.Rproj` –– the project environment for this analysis
+* `mushrooms.rmd` –– R Markdown file containing the Python/R data management and analysis
+* `Mushrooms/app.R` –– Shiny app
+* `mushrooms.csv` –– data retrieved from [Kaggle](https://www.kaggle.com/uciml/mushroom-classification)
